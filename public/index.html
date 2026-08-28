@@ -11,14 +11,14 @@
 
 <style>
   :root {
-    /* one deliberate dark-green identity, same on every page, matching the logo */
-    --paper: #12312B; --paper-raised: #1B3F37; --ink: #EAF5F1; --ink-soft: #9FC4B8; --line: #2C4C43;
-    --pine: #6FD9C4; --pine-soft: #1F4A40;
-    --mint: #6FD9C4; --mint-soft: #1F4A40;
-    --rose: #E993A8; --rose-soft: #3A2530;
+    /* one deliberate dark-pink identity, same on every page */
+    --paper: #3B1626; --paper-raised: #4A2033; --ink: #FCEAEF; --ink-soft: #D19FB2; --line: #5C2C3E;
+    --pine: #F2789F; --pine-soft: #5C2A3D;
+    --mint: #F2789F; --mint-soft: #5C2A3D;
+    --rose: #F2A6C4; --rose-soft: #4A2033;
     --blush: #E8899E; --blush-soft: #3E2A31;
     --honey: #E2B65E; --honey-soft: #3A2F1C;
-    --good: #7FBF9F;
+    --good: #F2A6C4;
     --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
   }
 
@@ -41,7 +41,7 @@
   body.panel-open .topnav { background: var(--paper); border-bottom-color: var(--line); }
   .topnav button { font: inherit; color: var(--ink); background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; letter-spacing: 0.02em; }
   .topnav button:hover { background: rgba(234,245,241,0.12); }
-  .topnav button.active { background: var(--pine); color: #0E241F; }
+  .topnav button.active { background: var(--pine); color: #3B1626; }
 
   /* hero — full screen on load, hidden once a panel opens */
   .hero {
@@ -59,7 +59,7 @@
   .hero .logo-mark { max-width: 700px; width: 92%; height: auto; }
   .hero-cta {
     display: inline-block; margin-top: 0.4rem;
-    background: var(--pine); color: #0E241F; font-weight: 700; font-size: 0.95rem;
+    background: var(--pine); color: #3B1626; font-weight: 700; font-size: 0.95rem;
     text-decoration: none; border: none; cursor: pointer;
     padding: 0.85rem 2.2rem; border-radius: 999px; letter-spacing: 0.02em;
   }
@@ -129,7 +129,7 @@
   .picker-preview .hand .nail:nth-child(3) { transform: translateY(-12px); }
   .picker-preview .cta { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
   .picker-preview .cta b { color: var(--ink); }
-  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #0E241F; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 700; cursor: pointer; }
+  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #3B1626; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 700; cursor: pointer; }
   .order-btn:hover { opacity: 0.9; }
 
   /* checkout */
@@ -150,7 +150,7 @@
   .upload-field .file-name { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.4rem; }
   .zelle-block { background: var(--honey-soft); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.3rem; font-size: 0.9rem; }
   .zelle-block .zelle-number { font-weight: 700; font-family: "Fraunces", serif; font-size: 1.1rem; }
-  .submit-btn { width: 100%; border: none; background: var(--pine); color: #0E241F; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .submit-btn { width: 100%; border: none; background: var(--pine); color: #3B1626; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
   .submit-btn:hover { opacity: 0.92; }
   .checkout-note { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.9rem; text-align: center; }
 
@@ -209,6 +209,7 @@
 <div class="wrap">
 
   <nav class="topnav">
+    <button type="button" data-panel="home">Home</button>
     <button type="button" data-panel="about">About Us</button>
     <button type="button" data-panel="our-art">Our Art</button>
     <button type="button" data-panel="our-process">Our Process</button>
@@ -390,7 +391,7 @@
 
       <div class="zelle-block">
         <div>Pay by <b>Zelle</b> to:</div>
-        <div class="zelle-number">[add Zelle phone number]</div>
+        <div class="zelle-number">(248) 300-7591</div>
         <div>Send the amount shown above, then submit this form &mdash; your order is confirmed once payment is received.</div>
       </div>
 
@@ -606,7 +607,7 @@
   }
 
   // --- Order & checkout ---
-  var ORDER_EMAIL = 'REPLACE_WITH_OWNER_EMAIL@example.com';
+  var ORDER_EMAIL = 'nailstofitart@gmail.com';
   var selectedOrder = { name: 'Nothing picked yet', price: null };
 
   function setSelectedOrder(name, price) {
@@ -619,7 +620,7 @@
   var PANEL_NAMES = ['about', 'our-art', 'our-process', 'order', 'coming-soon'];
 
   function showPanel(name) {
-    if (PANEL_NAMES.indexOf(name) === -1) return;
+    if (name !== 'home' && PANEL_NAMES.indexOf(name) === -1) return;
     PANEL_NAMES.forEach(function (n) {
       var panel = document.getElementById('panel-' + n);
       if (panel) panel.classList.toggle('active', n === name);
@@ -627,8 +628,8 @@
     document.querySelectorAll('.topnav button').forEach(function (btn) {
       btn.classList.toggle('active', btn.getAttribute('data-panel') === name);
     });
-    document.body.classList.add('panel-open');
-    if (history.replaceState) history.replaceState(null, '', '#' + name);
+    document.body.classList.toggle('panel-open', name !== 'home');
+    if (history.replaceState) history.replaceState(null, '', name === 'home' ? window.location.pathname : '#' + name);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
