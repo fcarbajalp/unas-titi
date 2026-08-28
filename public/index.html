@@ -11,30 +11,15 @@
 
 <style>
   :root {
-    --paper: #FBF7F1; --paper-raised: #FFFFFF; --ink: #14231F; --ink-soft: #566863; --line: #E1E4DE;
-    --pine: #12312B; --pine-soft: #E4EDEA;
-    --mint: #4FB3A0; --mint-soft: #DCEFE9;
-    --rose: #C85D77; --rose-soft: #F7DFE4;
-    --blush: #E8899E; --blush-soft: #FBE3E9;
-    --honey: #B9852A; --honey-soft: #F4E4C4;
-    --good: #3F7A5C;
-    --shadow: 0 1px 2px rgba(20,35,31,0.06), 0 10px 28px -14px rgba(20,35,31,0.18);
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --paper: #101A17; --paper-raised: #17241F; --ink: #ECF3F0; --ink-soft: #A9BCB5; --line: #263631;
-      --pine: #7FD9C4; --pine-soft: #1C3830; --mint: #7FD9C4; --mint-soft: #1F3F38;
-      --rose: #E993A8; --rose-soft: #3A2530; --blush: #E8899E; --blush-soft: #3E2A31;
-      --honey: #E2B65E; --honey-soft: #3A2F1C;
-      --good: #7FBF9F; --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
-    }
-  }
-  :root[data-theme="dark"] {
-    --paper: #101A17; --paper-raised: #17241F; --ink: #ECF3F0; --ink-soft: #A9BCB5; --line: #263631;
-    --pine: #7FD9C4; --pine-soft: #1C3830; --mint: #7FD9C4; --mint-soft: #1F3F38;
-    --rose: #E993A8; --rose-soft: #3A2530; --blush: #E8899E; --blush-soft: #3E2A31;
+    /* one deliberate dark-green identity, same on every page, matching the logo */
+    --paper: #12312B; --paper-raised: #1B3F37; --ink: #EAF5F1; --ink-soft: #9FC4B8; --line: #2C4C43;
+    --pine: #6FD9C4; --pine-soft: #1F4A40;
+    --mint: #6FD9C4; --mint-soft: #1F4A40;
+    --rose: #E993A8; --rose-soft: #3A2530;
+    --blush: #E8899E; --blush-soft: #3E2A31;
     --honey: #E2B65E; --honey-soft: #3A2F1C;
-    --good: #7FBF9F; --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
+    --good: #7FBF9F;
+    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
   }
 
   * { box-sizing: border-box; }
@@ -50,15 +35,15 @@
     position: sticky; top: 0; z-index: 20;
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
     margin-top: -3rem;
-    background: #0F2620; border-bottom: 1px solid rgba(234,245,241,0.12);
+    background: var(--paper); border-bottom: 1px solid var(--line);
     display: flex; justify-content: center; gap: 0.4rem; flex-wrap: wrap;
     padding: 0.7rem 1rem;
   }
-  .topnav button { font: inherit; color: #CFE9E1; background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; }
-  .topnav button:hover { background: rgba(234,245,241,0.1); }
-  .topnav button.active { background: rgba(234,245,241,0.18); }
+  .topnav button { font: inherit; color: var(--ink-soft); background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; }
+  .topnav button:hover { background: var(--paper-raised); color: var(--ink); }
+  .topnav button.active { background: var(--pine); color: #0E241F; }
 
-  /* hero — full screen on load, collapses once a panel opens */
+  /* hero — full screen on load, hidden once a panel opens */
   .hero {
     position: relative;
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
@@ -67,13 +52,11 @@
     background-image: url('assets/logo-bg.jpg');
     background-size: cover;
     background-position: center;
-    background-color: #12312B;
-    transition: min-height 0.45s ease;
+    background-color: var(--paper);
   }
-  body.panel-open .hero { min-height: 150px; }
-  @media (prefers-reduced-motion: reduce) { .hero { transition: none; } }
+  body.panel-open .hero { display: none; }
 
-  .panel { display: none; padding-top: 2.8rem; }
+  .panel { display: none; padding-top: 2.8rem; background: var(--paper); }
   .panel.active { display: block; }
   .panel > section:first-child { margin-top: 0; }
 
@@ -126,7 +109,7 @@
   .picker-preview .hand .nail:nth-child(3) { transform: translateY(-12px); }
   .picker-preview .cta { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
   .picker-preview .cta b { color: var(--ink); }
-  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #EAF5F1; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 600; cursor: pointer; }
+  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #0E241F; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 700; cursor: pointer; }
   .order-btn:hover { opacity: 0.9; }
 
   /* checkout */
@@ -147,7 +130,7 @@
   .upload-field .file-name { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.4rem; }
   .zelle-block { background: var(--honey-soft); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.3rem; font-size: 0.9rem; }
   .zelle-block .zelle-number { font-weight: 700; font-family: "Fraunces", serif; font-size: 1.1rem; }
-  .submit-btn { width: 100%; border: none; background: var(--pine); color: #EAF5F1; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .submit-btn { width: 100%; border: none; background: var(--pine); color: #0E241F; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
   .submit-btn:hover { opacity: 0.92; }
   .checkout-note { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.9rem; text-align: center; }
 
