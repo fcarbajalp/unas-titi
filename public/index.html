@@ -56,7 +56,7 @@
     text-align: center;
   }
   body.panel-open .hero { display: none; }
-  .hero .logo-mark { max-width: 320px; width: 62%; height: auto; }
+  .hero .logo-mark { max-width: 560px; width: 88%; height: auto; }
   .hero-cta {
     display: inline-block; margin-top: 0.4rem;
     background: var(--pine); color: #0E241F; font-weight: 700; font-size: 0.95rem;
@@ -65,11 +65,10 @@
   }
   .hero-cta:hover { opacity: 0.92; }
 
-  .slideshow { position: relative; width: min(88vw, 380px); aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: var(--paper-raised); box-shadow: var(--shadow); }
-  .slideshow .slide { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 1.6rem; opacity: 0; transition: opacity 0.8s ease; }
+  .slideshow { position: relative; width: min(92vw, 720px); aspect-ratio: 16 / 6; border-radius: 16px; overflow: hidden; background: var(--paper-raised); box-shadow: var(--shadow); }
+  .slideshow .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
   .slideshow .slide.active { opacity: 1; }
-  .slideshow .slide .hand { display: flex; gap: 10px; align-items: flex-end; height: 90px; }
-  .slideshow .slide .hand .nail { width: 40px; }
+  .slideshow .slide img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; display: block; }
   .slideshow-dots { display: flex; gap: 0.4rem; }
   .slideshow-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
   .slideshow-dots span.active { background: var(--pine); }
@@ -222,26 +221,10 @@
     <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
 
     <div class="slideshow" id="slideshow">
-      <div class="slide active"><div class="hand">
-        <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
-      </div></div>
-      <div class="slide"><div class="hand">
-        <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
-      </div></div>
-      <div class="slide"><div class="hand">
-        <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#C85D77"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#E2B65E"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#4F8F86"></div><div class="base"></div></div>
-      </div></div>
-      <div class="slide"><div class="hand">
-        <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
-        <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
-      </div></div>
+      <div class="slide active"><img src="assets/slideshow/photo1.jpg" alt="Speckled press-on nail set" loading="eager"></div>
+      <div class="slide"><img src="assets/slideshow/photo2.jpg" alt="White French tip manicure" loading="lazy"></div>
+      <div class="slide"><img src="assets/slideshow/photo3.jpg" alt="Heart and plaid nail art" loading="lazy"></div>
+      <div class="slide"><img src="assets/slideshow/photo4.jpg" alt="Black and tortoiseshell manicure" loading="lazy"></div>
     </div>
     <div class="slideshow-dots" id="slideshow-dots"></div>
 
@@ -468,7 +451,8 @@
   </div>
 
   <footer class="foot">
-    A work in progress &mdash; parent-supervised. More gets added here as the shop grows.
+    A work in progress &mdash; parent-supervised. More gets added here as the shop grows.<br>
+    Photos via Unsplash. Music: "The Lounge" by <a href="https://www.bensound.com" style="color:inherit">Bensound.com</a>.
   </footer>
 
 </div>
