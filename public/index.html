@@ -30,33 +30,40 @@
   button { font-family: inherit; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
-  /* nav */
+  /* nav — floats on top of the hero art; solidifies once a panel is open */
   .topnav {
-    position: sticky; top: 0; z-index: 20;
-    width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
-    margin-top: -3rem;
-    background: var(--paper); border-bottom: 1px solid var(--line);
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    background: transparent; border-bottom: 1px solid transparent;
     display: flex; justify-content: center; gap: 0.4rem; flex-wrap: wrap;
-    padding: 0.7rem 1rem;
+    padding: 0.9rem 1rem;
+    transition: background 0.3s ease, border-color 0.3s ease;
   }
-  .topnav button { font: inherit; color: var(--ink-soft); background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; }
-  .topnav button:hover { background: var(--paper-raised); color: var(--ink); }
+  body.panel-open .topnav { background: var(--paper); border-bottom-color: var(--line); }
+  .topnav button { font: inherit; color: var(--ink); background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; letter-spacing: 0.02em; }
+  .topnav button:hover { background: rgba(234,245,241,0.12); }
   .topnav button.active { background: var(--pine); color: #0E241F; }
 
   /* hero — full screen on load, hidden once a panel opens */
   .hero {
     position: relative;
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
-    margin-top: 0;
-    min-height: calc(100vh - 3.1rem);
+    margin-top: -3rem;
+    min-height: 100vh;
     background: var(--paper);
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 1.6rem;
+    gap: 1.5rem;
     padding: 2rem 1.5rem;
     text-align: center;
   }
   body.panel-open .hero { display: none; }
-  .hero .logo-mark { max-width: 340px; width: 70%; height: auto; }
+  .hero .logo-mark { max-width: 320px; width: 62%; height: auto; }
+  .hero-cta {
+    display: inline-block; margin-top: 0.4rem;
+    background: var(--pine); color: #0E241F; font-weight: 700; font-size: 0.95rem;
+    text-decoration: none; border: none; cursor: pointer;
+    padding: 0.85rem 2.2rem; border-radius: 999px; letter-spacing: 0.02em;
+  }
+  .hero-cta:hover { opacity: 0.92; }
 
   .slideshow { position: relative; width: min(88vw, 380px); aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: var(--paper-raised); box-shadow: var(--shadow); }
   .slideshow .slide { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 1.6rem; opacity: 0; transition: opacity 0.8s ease; }
@@ -70,7 +77,7 @@
   .music-toggle { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234,245,241,0.1); border: 1px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
   .music-toggle:hover { color: var(--ink); }
 
-  .panel { display: none; padding-top: 2.8rem; background: var(--paper); }
+  .panel { display: none; padding-top: 3.6rem; background: var(--paper); }
   .panel.active { display: block; }
   .panel > section:first-child { margin-top: 0; }
 
@@ -238,6 +245,7 @@
     </div>
     <div class="slideshow-dots" id="slideshow-dots"></div>
 
+    <button type="button" class="hero-cta" data-panel="order">Make an Order</button>
     <button type="button" class="music-toggle" id="music-toggle">&#127925; Play music</button>
     <audio id="bg-music" src="assets/music.mp3" loop preload="none"></audio>
   </div>
@@ -680,7 +688,7 @@
     if (role === 'submit-order') submitOrder();
   });
 
-  document.querySelectorAll('.topnav button').forEach(function (btn) {
+  document.querySelectorAll('[data-panel]').forEach(function (btn) {
     btn.addEventListener('click', function () { showPanel(btn.getAttribute('data-panel')); });
   });
 
