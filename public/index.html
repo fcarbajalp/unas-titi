@@ -42,6 +42,7 @@
   .topnav button { font: inherit; color: var(--ink); background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; letter-spacing: 0.02em; }
   .topnav button:hover { background: rgba(26,18,32,0.06); }
   .topnav button.active { background: var(--pine); color: #FFFFFF; }
+  .cart-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 1.1rem; height: 1.1rem; padding: 0 0.3rem; margin-left: 0.3rem; background: var(--rose); color: #fff; border-radius: 999px; font-size: 0.68rem; font-weight: 700; }
 
   /* hero — full screen on load, hidden once a panel opens */
   .hero {
@@ -167,6 +168,40 @@
   .club-price .amt { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.9rem; display: block; }
   .club-price .per { font-size: 0.78rem; color: var(--ink-soft); }
 
+  /* club options (surprise vs choose-your-year) */
+  .club-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; margin-top: 1.2rem; }
+  @media (max-width: 700px) { .club-options { grid-template-columns: 1fr; } }
+  .club-option { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 1.3rem; box-shadow: var(--shadow); }
+  .club-option h4 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+  .club-option p { margin: 0 0 0.8rem; font-size: 0.86rem; color: var(--ink-soft); }
+  .club-designs { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .club-designs label { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.82rem; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 0.3rem 0.7rem; cursor: pointer; }
+
+  /* category tabs (Our Art) */
+  .cat-tabs { display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.6rem; }
+  .cat-tab { font: inherit; border: 1px solid var(--line); background: var(--paper-raised); color: var(--ink); border-radius: 999px; padding: 0.5rem 1.1rem; font-size: 0.86rem; font-weight: 600; cursor: pointer; }
+  .cat-tab.active { background: var(--pine); color: #fff; border-color: var(--pine); }
+  .cat-panel { display: none; }
+  .cat-panel.active { display: block; }
+  .coming-soon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 700px) { .coming-soon-grid { grid-template-columns: 1fr; } }
+
+  /* cart */
+  .cart-list { margin-bottom: 1rem; }
+  .cart-row { display: grid; grid-template-columns: 1fr auto auto auto; align-items: center; gap: 0.8rem; padding: 0.7rem 0; border-bottom: 1px solid var(--line); }
+  .cart-row:last-child { border-bottom: none; }
+  .cart-row-name { font-size: 0.9rem; font-weight: 600; }
+  .cart-extra { font-weight: 400; color: var(--ink-soft); font-size: 0.82rem; }
+  .cart-row-qty { display: flex; align-items: center; gap: 0.5rem; }
+  .cart-row-qty button { width: 26px; height: 26px; border-radius: 50%; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font-size: 1rem; cursor: pointer; line-height: 1; }
+  .cart-row-price { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 3.5em; text-align: right; }
+  .cart-remove { border: none; background: none; color: var(--ink-soft); font-size: 1.1rem; cursor: pointer; }
+  .cart-empty { color: var(--ink-soft); font-size: 0.9rem; margin: 0 0 1rem; }
+  .cart-total { text-align: right; font-family: "Fraunces", serif; font-weight: 700; font-size: 1.2rem; margin: 0.6rem 0 1.4rem; }
+
+  .toast { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--pine); color: #fff; padding: 0.7rem 1.3rem; border-radius: 999px; font-size: 0.86rem; font-weight: 600; box-shadow: var(--shadow); opacity: 0; pointer-events: none; transition: opacity 0.25s ease, transform 0.25s ease; z-index: 40; }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
   /* channels */
   .channels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
   @media (max-width: 780px) { .channels { grid-template-columns: repeat(2, 1fr); } }
@@ -217,7 +252,7 @@
     <button type="button" data-panel="about">About Us</button>
     <button type="button" data-panel="our-art">Our Art</button>
     <button type="button" data-panel="our-process">Our Process</button>
-    <button type="button" data-panel="order">Make an Order</button>
+    <button type="button" data-panel="order">Make an Order <span class="cart-badge" id="cart-badge" style="display:none"></span></button>
     <button type="button" data-panel="coming-soon">Coming Soon</button>
   </nav>
 
@@ -256,57 +291,94 @@
   <section>
     <div class="section-head">
       <p class="kicker">The Collection</p>
-      <h2>Design library</h2>
-      <p>Every set is hand-painted to order &mdash; pricing follows the shop's tiering, from simple patterns to detailed metallic work.</p>
+      <h2>Our Art</h2>
+      <p>Everything handmade, in one place &mdash; more categories are on the way.</p>
     </div>
-    <div class="gallery">
-      <div class="design-card">
-        <div class="hand">
-          <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+    <div class="cat-tabs">
+      <button type="button" class="cat-tab active" data-cat="nails">Nails</button>
+      <button type="button" class="cat-tab" data-cat="tshirts">T-Shirts</button>
+      <button type="button" class="cat-tab" data-cat="sweatshirts">Sweatshirts</button>
+      <button type="button" class="cat-tab" data-cat="hats">Hats</button>
+    </div>
+
+    <div class="cat-panel active" id="cat-nails">
+      <div class="gallery">
+        <div class="design-card">
+          <div class="hand">
+            <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+          </div>
+          <p class="tier">Custom</p>
+          <h3>Bee Stripe French</h3>
+          <p>Honey stripe tip over a soft nude base.</p>
+          <p class="price">$30</p>
+          <button class="order-btn" data-role="add-cart" data-id="bee-stripe">Add to Cart</button>
         </div>
-        <p class="tier">Custom</p>
-        <h3>Bee Stripe French</h3>
-        <p>Honey stripe tip over a soft nude base.</p>
-        <p class="price">$30</p>
-        <button class="order-btn" data-role="order-design" data-name="Bee Stripe French" data-price="30">Order this</button>
+        <div class="design-card">
+          <div class="hand">
+            <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+          </div>
+          <p class="tier">Custom</p>
+          <h3>Mint Polka French</h3>
+          <p>Mint tip with hand-dotted white polka dots.</p>
+          <p class="price">$30</p>
+          <button class="order-btn" data-role="add-cart" data-id="mint-polka">Add to Cart</button>
+        </div>
+        <div class="design-card">
+          <div class="hand">
+            <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#C85D77"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#E2B65E"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#4F8F86"></div><div class="base"></div></div>
+          </div>
+          <p class="tier">Custom</p>
+          <h3>Pastel Colour-Block</h3>
+          <p>Rotating pastel tip colours across the set.</p>
+          <p class="price">$32</p>
+          <button class="order-btn" data-role="add-cart" data-id="pastel-block">Add to Cart</button>
+        </div>
+        <div class="design-card">
+          <div class="hand">
+            <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+          </div>
+          <p class="tier">Luxury</p>
+          <h3>Gold Foil Bloom</h3>
+          <p>Gold foil French with floral detail &amp; bead accents.</p>
+          <p class="price">$58</p>
+          <button class="order-btn" data-role="add-cart" data-id="gold-foil">Add to Cart</button>
+        </div>
+        <div class="design-card">
+          <div class="hand">
+            <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#C85D77;--acc2:#F4E4C4"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+            <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#E2B65E"></div><div class="base"></div></div>
+          </div>
+          <p class="tier">Bundle</p>
+          <h3>Bundle of 5</h3>
+          <p>Any 5 simple or colour-block sets, mixed &amp; matched &mdash; tell us which in the notes.</p>
+          <p class="price">$130</p>
+          <button class="order-btn" data-role="add-cart" data-id="bundle-5">Add to Cart</button>
+        </div>
       </div>
-      <div class="design-card">
-        <div class="hand">
-          <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
-        </div>
-        <p class="tier">Custom</p>
-        <h3>Mint Polka French</h3>
-        <p>Mint tip with hand-dotted white polka dots.</p>
-        <p class="price">$30</p>
-        <button class="order-btn" data-role="order-design" data-name="Mint Polka French" data-price="30">Order this</button>
+    </div>
+
+    <div class="cat-panel" id="cat-tshirts">
+      <div class="coming-soon-grid">
+        <div class="channel-card"><span class="soon">Coming soon</span><h3>T-Shirts</h3><p>Our designs, printed on soft tees.</p></div>
       </div>
-      <div class="design-card">
-        <div class="hand">
-          <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#C85D77"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#E2B65E"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#4F8F86"></div><div class="base"></div></div>
-        </div>
-        <p class="tier">Custom</p>
-        <h3>Pastel Colour-Block</h3>
-        <p>Rotating pastel tip colours across the set.</p>
-        <p class="price">$32</p>
-        <button class="order-btn" data-role="order-design" data-name="Pastel Colour-Block" data-price="32">Order this</button>
+    </div>
+    <div class="cat-panel" id="cat-sweatshirts">
+      <div class="coming-soon-grid">
+        <div class="channel-card"><span class="soon">Coming soon</span><h3>Sweatshirts</h3><p>Cozy pullovers with our art on them.</p></div>
       </div>
-      <div class="design-card">
-        <div class="hand">
-          <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
-          <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
-        </div>
-        <p class="tier">Luxury</p>
-        <h3>Gold Foil Bloom</h3>
-        <p>Gold foil French with floral detail &amp; bead accents.</p>
-        <p class="price">$58</p>
-        <button class="order-btn" data-role="order-design" data-name="Gold Foil Bloom" data-price="58">Order this</button>
+    </div>
+    <div class="cat-panel" id="cat-hats">
+      <div class="coming-soon-grid">
+        <div class="channel-card"><span class="soon">Coming soon</span><h3>Hats</h3><p>Caps and beanies, once the designs are ready.</p></div>
       </div>
     </div>
   </section>
@@ -315,7 +387,7 @@
     <div class="section-head">
       <p class="kicker">Build Your Own</p>
       <h2>Design your set</h2>
-      <p>Mix a colour, a pattern, and a shape to preview your own combo &mdash; then message me to order it.</p>
+      <p>Mix a colour, a pattern, and a shape to preview your own combo &mdash; then add it to your cart.</p>
     </div>
     <div class="picker">
       <div class="picker-controls">
@@ -334,8 +406,8 @@
       </div>
       <div class="picker-preview">
         <div class="hand" id="preview-hand"></div>
-        <p class="cta">Like this combo? Order it below and I'll get started.</p>
-        <button class="order-btn" data-role="order-picker">Order this combo</button>
+        <p class="cta">Like this combo? Add it to your cart below.</p>
+        <button class="order-btn" data-role="add-cart-picker">Add to Cart &mdash; $30</button>
       </div>
     </div>
   </section>
@@ -367,13 +439,8 @@
       <p>Pick a design above (or build your own), fill this in, and send payment by Zelle &mdash; I'll confirm before starting.</p>
     </div>
     <div class="checkout">
-      <div class="checkout-selected">
-        <div>
-          <div class="label">Selected design</div>
-          <div class="name" id="selected-name">Nothing picked yet</div>
-        </div>
-        <div class="price" id="selected-price">&mdash;</div>
-      </div>
+      <div class="cart-list" id="cart-list"></div>
+      <div class="cart-total" id="cart-total"></div>
 
       <div class="field-grid">
         <div class="field">
@@ -415,11 +482,30 @@
     <div class="club-card">
       <div class="copy">
         <h3>One new set, every month</h3>
-        <p>Join the club for a rotating simple or colour-block design each month at a member price &mdash; message me directly to sign up, spots tracked by hand for now.</p>
+        <p>Join the club for a rotating simple or colour-block design each month at a member price. Choose how your monthly design gets picked below.</p>
       </div>
       <div class="club-price">
         <span class="amt">$25</span>
         <span class="per">per month</span>
+      </div>
+    </div>
+
+    <div class="club-options">
+      <div class="club-option">
+        <h4>Surprise Me</h4>
+        <p>I'll pick that month's design for you &mdash; a fun surprise every time it ships.</p>
+        <button class="order-btn" data-role="add-cart" data-id="club-surprise">Add to Cart</button>
+      </div>
+      <div class="club-option">
+        <h4>Choose Your Year</h4>
+        <p>Pick your favorites now and we'll rotate through your list as new designs get added.</p>
+        <div class="club-designs">
+          <label><input type="checkbox" value="Bee Stripe French" checked> Bee Stripe French</label>
+          <label><input type="checkbox" value="Mint Polka French" checked> Mint Polka French</label>
+          <label><input type="checkbox" value="Pastel Colour-Block"> Pastel Colour-Block</label>
+          <label><input type="checkbox" value="Gold Foil Bloom"> Gold Foil Bloom</label>
+        </div>
+        <button class="order-btn" data-role="add-cart-club-choose">Add to Cart</button>
       </div>
     </div>
   </section>
@@ -464,6 +550,8 @@
   </footer>
 
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
   var COLORS = [
@@ -613,15 +701,92 @@
     await persistSuggestions();
   }
 
-  // --- Order & checkout ---
+  // --- Products & cart ---
   var ORDER_EMAIL = 'nailstofitart@gmail.com';
-  var selectedOrder = { name: 'Nothing picked yet', price: null };
+  var PRODUCTS = {
+    'bee-stripe': { name: 'Bee Stripe French', price: 30 },
+    'mint-polka': { name: 'Mint Polka French', price: 30 },
+    'pastel-block': { name: 'Pastel Colour-Block', price: 32 },
+    'gold-foil': { name: 'Gold Foil Bloom', price: 58 },
+    'bundle-5': { name: 'Bundle of 5', price: 130 },
+    'custom-combo': { name: 'Build Your Own combo', price: 30 },
+    'club-surprise': { name: 'Nail Club — Surprise Me (monthly)', price: 25 },
+    'club-choose': { name: 'Nail Club — Choose Your Year (monthly)', price: 25 }
+  };
 
-  function setSelectedOrder(name, price) {
-    selectedOrder = { name: name, price: price };
-    document.getElementById('selected-name').textContent = name;
-    document.getElementById('selected-price').textContent = price ? ('$' + price) : 'Ask for price';
-    showPanel('order');
+  function loadCart() {
+    try { return JSON.parse(localStorage.getItem('ntfa_cart') || '[]'); } catch (e) { return []; }
+  }
+  var cart = loadCart();
+
+  function saveCart() {
+    try { localStorage.setItem('ntfa_cart', JSON.stringify(cart)); } catch (e) {}
+    renderCart();
+    updateCartBadge();
+  }
+
+  function showToast(msg) {
+    var t = document.getElementById('toast');
+    if (!t) return;
+    t.textContent = msg;
+    t.classList.add('show');
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function () { t.classList.remove('show'); }, 2200);
+  }
+
+  function addToCart(id, extra) {
+    var match = cart.find(function (c) {
+      return c.id === id && JSON.stringify(c.extra || null) === JSON.stringify(extra || null);
+    });
+    if (match) match.qty += 1;
+    else cart.push({ id: id, qty: 1, extra: extra || null });
+    saveCart();
+    var p = PRODUCTS[id];
+    showToast((p ? p.name : 'Item') + ' added to cart');
+  }
+
+  function updateCartBadge() {
+    var count = cart.reduce(function (sum, c) { return sum + c.qty; }, 0);
+    var badge = document.getElementById('cart-badge');
+    if (!badge) return;
+    badge.textContent = count;
+    badge.style.display = count > 0 ? 'inline-flex' : 'none';
+  }
+
+  function cartTotal() {
+    return cart.reduce(function (sum, c) {
+      var p = PRODUCTS[c.id];
+      return sum + (p ? p.price * c.qty : 0);
+    }, 0);
+  }
+
+  function renderCart() {
+    var root = document.getElementById('cart-list');
+    var totalEl = document.getElementById('cart-total');
+    if (!root || !totalEl) return;
+    if (!cart.length) {
+      root.innerHTML = '<p class="cart-empty">Your cart is empty &mdash; add a design from Our Art first.</p>';
+      totalEl.textContent = '';
+      return;
+    }
+    var html = '';
+    cart.forEach(function (item, i) {
+      var p = PRODUCTS[item.id];
+      if (!p) return;
+      var extraText = (item.extra && item.extra.designs) ? ' <span class="cart-extra">(' + item.extra.designs.join(', ') + ')</span>' : '';
+      html += '<div class="cart-row">' +
+        '<div class="cart-row-name">' + p.name + extraText + '</div>' +
+        '<div class="cart-row-qty">' +
+          '<button type="button" data-role="cart-dec" data-index="' + i + '">&minus;</button>' +
+          '<span>' + item.qty + '</span>' +
+          '<button type="button" data-role="cart-inc" data-index="' + i + '">+</button>' +
+        '</div>' +
+        '<div class="cart-row-price">$' + (p.price * item.qty) + '</div>' +
+        '<button type="button" class="cart-remove" data-role="cart-remove" data-index="' + i + '" aria-label="Remove">&times;</button>' +
+      '</div>';
+    });
+    root.innerHTML = html;
+    totalEl.textContent = 'Total: $' + cartTotal();
   }
 
   var PANEL_NAMES = ['about', 'our-art', 'our-process', 'order', 'coming-soon'];
@@ -646,20 +811,28 @@
   });
 
   function submitOrder() {
+    if (!cart.length) { showToast('Add something to your cart first'); return; }
     var name = document.getElementById('order-name').value.trim();
     var contact = document.getElementById('order-contact').value.trim();
     var notes = document.getElementById('order-notes').value.trim();
     var hasPhoto = document.getElementById('order-photo').files.length > 0;
 
-    var subject = 'New order: ' + selectedOrder.name;
-    var bodyLines = [
-      'Design: ' + selectedOrder.name,
-      'Price: ' + (selectedOrder.price ? ('$' + selectedOrder.price) : 'ask'),
+    var lines = cart.map(function (item) {
+      var p = PRODUCTS[item.id];
+      if (!p) return null;
+      var extraText = (item.extra && item.extra.designs) ? ' [choices: ' + item.extra.designs.join(', ') + ']' : '';
+      return '- ' + p.name + ' x' + item.qty + ' = $' + (p.price * item.qty) + extraText;
+    }).filter(Boolean);
+
+    var subject = 'New order (' + cart.length + ' item' + (cart.length === 1 ? '' : 's') + ')';
+    var bodyLines = ['Order:'].concat(lines).concat([
+      'Total: $' + cartTotal(),
+      '',
       'Name: ' + (name || '(not given)'),
       'Contact: ' + (contact || '(not given)'),
       'Notes: ' + (notes || '(none)'),
       hasPhoto ? '\n(Remember to attach the reference photo you selected on the site before sending this email.)' : ''
-    ];
+    ]);
     var body = bodyLines.join('\n');
     var mailto = 'mailto:' + ORDER_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     window.location.href = mailto;
@@ -675,9 +848,27 @@
     if (role === 'shape') { picker.shape = value; renderControls(); }
     if (role === 'add-suggestion') addSuggestion();
     if (role === 'remove-suggestion') removeSuggestion(el.getAttribute('data-id'));
-    if (role === 'order-design') setSelectedOrder(el.getAttribute('data-name'), parseInt(el.getAttribute('data-price'), 10));
-    if (role === 'order-picker') setSelectedOrder('Custom combo: ' + picker.color + ' / ' + picker.pattern + ' / ' + picker.shape, null);
+    if (role === 'add-cart') addToCart(el.getAttribute('data-id'));
+    if (role === 'add-cart-picker') addToCart('custom-combo', { designs: [picker.color + ' / ' + picker.pattern + ' / ' + picker.shape] });
+    if (role === 'add-cart-club-choose') {
+      var checked = Array.prototype.slice.call(document.querySelectorAll('.club-designs input:checked')).map(function (c) { return c.value; });
+      if (!checked.length) { showToast('Pick at least one design first'); return; }
+      addToCart('club-choose', { designs: checked });
+    }
+    if (role === 'cart-inc') { var i1 = parseInt(el.getAttribute('data-index'), 10); cart[i1].qty++; saveCart(); }
+    if (role === 'cart-dec') { var i2 = parseInt(el.getAttribute('data-index'), 10); cart[i2].qty--; if (cart[i2].qty <= 0) cart.splice(i2, 1); saveCart(); }
+    if (role === 'cart-remove') { var i3 = parseInt(el.getAttribute('data-index'), 10); cart.splice(i3, 1); saveCart(); }
     if (role === 'submit-order') submitOrder();
+  });
+
+  document.querySelectorAll('.cat-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.cat-tab').forEach(function (t) { t.classList.remove('active'); });
+      document.querySelectorAll('.cat-panel').forEach(function (p) { p.classList.remove('active'); });
+      tab.classList.add('active');
+      var target = document.getElementById('cat-' + tab.getAttribute('data-cat'));
+      if (target) target.classList.add('active');
+    });
   });
 
   document.querySelectorAll('[data-panel]').forEach(function (btn) {
@@ -733,6 +924,8 @@
 
   renderControls();
   loadSuggestions();
+  renderCart();
+  updateCartBadge();
 </script>
 </body>
 </html>
