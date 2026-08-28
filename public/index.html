@@ -38,23 +38,36 @@
   }
 
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 3.4rem; }
+  section[id] { scroll-margin-top: 3.4rem; }
   body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
   h1, h2, h3 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; color: var(--ink); }
   button { font-family: inherit; }
   .wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
+  /* nav */
+  .topnav {
+    position: sticky; top: 0; z-index: 20;
+    width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+    margin-top: -3rem;
+    background: #0F2620; border-bottom: 1px solid rgba(234,245,241,0.12);
+    display: flex; justify-content: center; gap: 0.4rem; flex-wrap: wrap;
+    padding: 0.7rem 1rem;
+  }
+  .topnav a { color: #CFE9E1; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; }
+  .topnav a:hover { background: rgba(234,245,241,0.1); }
+
   /* hero */
   .hero {
     position: relative;
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
-    margin-top: -3rem;
-    padding: 5.5rem 1.5rem 4.5rem;
+    margin-top: 0;
+    padding: 3rem 1.5rem 3.5rem;
     text-align: center;
-    background-image: linear-gradient(180deg, rgba(10,26,22,0.35), rgba(10,26,22,0.72)), url('assets/logo.jpeg');
-    background-size: cover;
-    background-position: center;
+    background: #12312B;
     color: #EAF5F1;
   }
+  .hero .logo-mark { display: block; margin: 0 auto 1.2rem; max-width: 260px; width: 60%; height: auto; }
   .badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(234,245,241,0.14); color: #EAF5F1; border: 1px solid rgba(234,245,241,0.35); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.3rem; backdrop-filter: blur(2px); }
   .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 700; margin: 0 0 0.6rem; color: #EAF5F1; }
   .hero .placeholder-note { font-size: 0.78rem; color: #EAF5F1; opacity: 0.75; margin: 0 0 0.9rem; }
@@ -189,13 +202,30 @@
 
 <div class="wrap">
 
+  <nav class="topnav">
+    <a href="#about">About Us</a>
+    <a href="#our-art">Our Art</a>
+    <a href="#our-process">Our Process</a>
+    <a href="#order">Make an Order</a>
+    <a href="#coming-soon">Coming Soon</a>
+  </nav>
+
   <div class="hero">
     <h1 class="sr-only">Nails To Fit Art</h1>
+    <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
     <span class="badge">&#128142; taking orders from friends &mdash; official launch coming soon</span>
     <p class="tagline">Hand-painted press-on nails, made to order &mdash; pick a design below or build your own.</p>
   </div>
 
-  <section>
+  <section id="about">
+    <div class="section-head">
+      <p class="kicker">About Us</p>
+      <h2>Handmade, one set at a time</h2>
+      <p>Nails To Fit Art started with a paintbrush, a stack of blank tips, and friends asking where they could get a set like mine. Every design here is hand-painted to order &mdash; no printers, no factories, just practice and patience. It's a small, family-run shop, and each order is made specifically for you.</p>
+    </div>
+  </section>
+
+  <section id="our-art">
     <div class="section-head">
       <p class="kicker">The Collection</p>
       <h2>Design library</h2>
@@ -282,7 +312,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="our-process">
     <div class="section-head">
       <p class="kicker">Behind the scenes</p>
       <h2>How it's made</h2>
@@ -298,7 +328,7 @@
     <div class="video-slot">&#127909; Process video coming soon &mdash; this spot is ready for the first behind-the-scenes clip once it's filmed.</div>
   </section>
 
-  <section id="checkout-section">
+  <section id="order">
     <div class="section-head">
       <p class="kicker">Order</p>
       <h2>Place your order</h2>
@@ -379,7 +409,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="coming-soon">
     <div class="section-head">
       <p class="kicker">Elsewhere</p>
       <h2>Where this is headed</h2>
@@ -563,7 +593,7 @@
     selectedOrder = { name: name, price: price };
     document.getElementById('selected-name').textContent = name;
     document.getElementById('selected-price').textContent = price ? ('$' + price) : 'Ask for price';
-    document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.getElementById('order').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   document.getElementById('order-photo').addEventListener('change', function (e) {
