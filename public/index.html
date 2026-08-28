@@ -49,12 +49,26 @@
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
     margin-top: 0;
     min-height: calc(100vh - 3.1rem);
-    background-image: url('assets/logo-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-color: var(--paper);
+    background: var(--paper);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 1.6rem;
+    padding: 2rem 1.5rem;
+    text-align: center;
   }
   body.panel-open .hero { display: none; }
+  .hero .logo-mark { max-width: 340px; width: 70%; height: auto; }
+
+  .slideshow { position: relative; width: min(88vw, 380px); aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background: var(--paper-raised); box-shadow: var(--shadow); }
+  .slideshow .slide { position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 1.6rem; opacity: 0; transition: opacity 0.8s ease; }
+  .slideshow .slide.active { opacity: 1; }
+  .slideshow .slide .hand { display: flex; gap: 10px; align-items: flex-end; height: 90px; }
+  .slideshow .slide .hand .nail { width: 40px; }
+  .slideshow-dots { display: flex; gap: 0.4rem; }
+  .slideshow-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+  .slideshow-dots span.active { background: var(--pine); }
+
+  .music-toggle { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234,245,241,0.1); border: 1px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+  .music-toggle:hover { color: var(--ink); }
 
   .panel { display: none; padding-top: 2.8rem; background: var(--paper); }
   .panel.active { display: block; }
@@ -196,8 +210,36 @@
     <button type="button" data-panel="coming-soon">Coming Soon</button>
   </nav>
 
-  <div class="hero" role="img" aria-label="Nails To Fit Art">
+  <div class="hero">
     <h1 class="sr-only">Nails To Fit Art</h1>
+    <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
+
+    <div class="slideshow" id="slideshow">
+      <div class="slide active"><div class="hand">
+        <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+      </div></div>
+      <div class="slide"><div class="hand">
+        <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+      </div></div>
+      <div class="slide"><div class="hand">
+        <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#C85D77"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#E2B65E"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#4F8F86"></div><div class="base"></div></div>
+      </div></div>
+      <div class="slide"><div class="hand">
+        <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+        <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+      </div></div>
+    </div>
+    <div class="slideshow-dots" id="slideshow-dots"></div>
+
+    <button type="button" class="music-toggle" id="music-toggle">&#127925; Play music</button>
+    <audio id="bg-music" src="assets/music.mp3" loop preload="none"></audio>
   </div>
 
   <div class="panel" id="panel-about">
@@ -644,6 +686,50 @@
 
   var initialPanel = window.location.hash.replace('#', '');
   if (PANEL_NAMES.indexOf(initialPanel) !== -1) showPanel(initialPanel);
+
+  // --- Hero slideshow (placeholder slides — swap for real photos anytime) ---
+  (function () {
+    var slides = document.querySelectorAll('#slideshow .slide');
+    var dotsRoot = document.getElementById('slideshow-dots');
+    if (!slides.length || !dotsRoot) return;
+    var dots = [];
+    slides.forEach(function (_, i) {
+      var d = document.createElement('span');
+      if (i === 0) d.classList.add('active');
+      dotsRoot.appendChild(d);
+      dots.push(d);
+    });
+    var current = 0;
+    setInterval(function () {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }, 3500);
+  })();
+
+  // --- Background music toggle (silent until a real track is added at assets/music.mp3) ---
+  (function () {
+    var btn = document.getElementById('music-toggle');
+    var audio = document.getElementById('bg-music');
+    if (!btn || !audio) return;
+    var playing = false;
+    btn.addEventListener('click', function () {
+      if (!playing) {
+        audio.play().then(function () {
+          playing = true;
+          btn.innerHTML = '&#127925; Pause music';
+        }).catch(function () {
+          btn.innerHTML = '&#127925; No track yet';
+        });
+      } else {
+        audio.pause();
+        playing = false;
+        btn.innerHTML = '&#127925; Play music';
+      }
+    });
+  })();
 
   renderControls();
   loadSuggestions();
