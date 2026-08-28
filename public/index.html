@@ -44,11 +44,21 @@
   .wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
 
   /* hero */
-  .hero { text-align: center; padding-bottom: 2.2rem; margin-bottom: 3rem; border-bottom: 2px solid var(--ink); }
-  .badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--honey-soft); color: var(--honey); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.1rem; }
-  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 700; margin: 0 0 0.6rem; }
-  .hero .placeholder-note { font-size: 0.78rem; color: var(--ink-soft); margin: 0 0 0.9rem; }
-  .hero .tagline { font-size: 1.15rem; color: var(--ink-soft); margin: 0 auto; max-width: 40ch; }
+  .hero {
+    position: relative;
+    width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
+    margin-top: -3rem;
+    padding: 5.5rem 1.5rem 4.5rem;
+    text-align: center;
+    background-image: linear-gradient(180deg, rgba(10,26,22,0.35), rgba(10,26,22,0.72)), url('assets/logo.jpeg');
+    background-size: cover;
+    background-position: center;
+    color: #EAF5F1;
+  }
+  .badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(234,245,241,0.14); color: #EAF5F1; border: 1px solid rgba(234,245,241,0.35); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.3rem; backdrop-filter: blur(2px); }
+  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 700; margin: 0 0 0.6rem; color: #EAF5F1; }
+  .hero .placeholder-note { font-size: 0.78rem; color: #EAF5F1; opacity: 0.75; margin: 0 0 0.9rem; }
+  .hero .tagline { font-size: 1.15rem; color: #EAF5F1; opacity: 0.92; margin: 0 auto; max-width: 40ch; }
 
   section { margin-bottom: 3.6rem; }
   .section-head { text-align: center; margin-bottom: 1.6rem; }
@@ -99,6 +109,30 @@
   .picker-preview .hand .nail:nth-child(3) { transform: translateY(-12px); }
   .picker-preview .cta { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
   .picker-preview .cta b { color: var(--ink); }
+  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #EAF5F1; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 600; cursor: pointer; }
+  .order-btn:hover { opacity: 0.9; }
+
+  /* checkout */
+  .checkout { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 16px; padding: 1.8rem; box-shadow: var(--shadow); }
+  .checkout-selected { display: flex; justify-content: space-between; align-items: center; gap: 1rem; background: var(--pine-soft); border-radius: 10px; padding: 0.9rem 1.1rem; margin-bottom: 1.4rem; }
+  .checkout-selected .label { font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; }
+  .checkout-selected .name { font-weight: 600; font-size: 1.05rem; margin-top: 0.15rem; }
+  .checkout-selected .price { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.3rem; }
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  @media (max-width: 640px) { .field-grid { grid-template-columns: 1fr; } }
+  .field label { display: block; font-size: 0.78rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .field input[type="text"], .field input[type="email"], .field input[type="tel"], .field textarea {
+    width: 100%; padding: 0.65rem 0.8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font-family: inherit; font-size: 0.92rem;
+  }
+  .field textarea { min-height: 80px; resize: vertical; }
+  .field.full { margin-bottom: 1rem; }
+  .upload-field { border: 1px dashed var(--line); border-radius: 10px; padding: 1rem; text-align: center; margin-bottom: 1.2rem; }
+  .upload-field .file-name { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.4rem; }
+  .zelle-block { background: var(--honey-soft); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.3rem; font-size: 0.9rem; }
+  .zelle-block .zelle-number { font-weight: 700; font-family: "Fraunces", serif; font-size: 1.1rem; }
+  .submit-btn { width: 100%; border: none; background: var(--pine); color: #EAF5F1; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .submit-btn:hover { opacity: 0.92; }
+  .checkout-note { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.9rem; text-align: center; }
 
   /* club */
   .club-card { background: linear-gradient(135deg, var(--honey-soft), var(--blush-soft)); border-radius: 16px; padding: 2rem; box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; justify-content: space-between; }
@@ -157,7 +191,6 @@
 
   <div class="hero">
     <h1 class="sr-only">Nails To Fit Art</h1>
-    <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
     <span class="badge">&#128142; taking orders from friends &mdash; official launch coming soon</span>
     <p class="tagline">Hand-painted press-on nails, made to order &mdash; pick a design below or build your own.</p>
   </div>
@@ -179,6 +212,7 @@
         <h3>Bee Stripe French</h3>
         <p>Honey stripe tip over a soft nude base.</p>
         <p class="price">$30</p>
+        <button class="order-btn" data-role="order-design" data-name="Bee Stripe French" data-price="30">Order this</button>
       </div>
       <div class="design-card">
         <div class="hand">
@@ -190,6 +224,7 @@
         <h3>Mint Polka French</h3>
         <p>Mint tip with hand-dotted white polka dots.</p>
         <p class="price">$30</p>
+        <button class="order-btn" data-role="order-design" data-name="Mint Polka French" data-price="30">Order this</button>
       </div>
       <div class="design-card">
         <div class="hand">
@@ -201,6 +236,7 @@
         <h3>Pastel Colour-Block</h3>
         <p>Rotating pastel tip colours across the set.</p>
         <p class="price">$32</p>
+        <button class="order-btn" data-role="order-design" data-name="Pastel Colour-Block" data-price="32">Order this</button>
       </div>
       <div class="design-card">
         <div class="hand">
@@ -212,6 +248,7 @@
         <h3>Gold Foil Bloom</h3>
         <p>Gold foil French with floral detail &amp; bead accents.</p>
         <p class="price">$58</p>
+        <button class="order-btn" data-role="order-design" data-name="Gold Foil Bloom" data-price="58">Order this</button>
       </div>
     </div>
   </section>
@@ -239,7 +276,8 @@
       </div>
       <div class="picker-preview">
         <div class="hand" id="preview-hand"></div>
-        <p class="cta">Like this combo? <b>Message me</b> with your colour, pattern, and shape pick and I'll get started.</p>
+        <p class="cta">Like this combo? Order it below and I'll get started.</p>
+        <button class="order-btn" data-role="order-picker">Order this combo</button>
       </div>
     </div>
   </section>
@@ -258,6 +296,53 @@
       <div class="step"><span class="num">5</span><p>Glue on, press, hold &mdash; ready to go out the door</p></div>
     </div>
     <div class="video-slot">&#127909; Process video coming soon &mdash; this spot is ready for the first behind-the-scenes clip once it's filmed.</div>
+  </section>
+
+  <section id="checkout-section">
+    <div class="section-head">
+      <p class="kicker">Order</p>
+      <h2>Place your order</h2>
+      <p>Pick a design above (or build your own), fill this in, and send payment by Zelle &mdash; I'll confirm before starting.</p>
+    </div>
+    <div class="checkout">
+      <div class="checkout-selected">
+        <div>
+          <div class="label">Selected design</div>
+          <div class="name" id="selected-name">Nothing picked yet</div>
+        </div>
+        <div class="price" id="selected-price">&mdash;</div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label for="order-name">Your name</label>
+          <input type="text" id="order-name" maxlength="60">
+        </div>
+        <div class="field">
+          <label for="order-contact">Phone or email</label>
+          <input type="text" id="order-contact" maxlength="80">
+        </div>
+      </div>
+      <div class="field full">
+        <label for="order-notes">Notes (size, timing, anything else)</label>
+        <textarea id="order-notes" maxlength="500"></textarea>
+      </div>
+
+      <div class="upload-field">
+        <label for="order-photo"><b>Upload a reference photo</b> (optional) &mdash; a picture of a design you love</label><br>
+        <input type="file" id="order-photo" accept="image/*">
+        <div class="file-name" id="order-photo-name"></div>
+      </div>
+
+      <div class="zelle-block">
+        <div>Pay by <b>Zelle</b> to:</div>
+        <div class="zelle-number">[add Zelle phone number]</div>
+        <div>Send the amount shown above, then submit this form &mdash; your order is confirmed once payment is received.</div>
+      </div>
+
+      <button class="submit-btn" data-role="submit-order">Send Order</button>
+      <p class="checkout-note">Submitting opens an email with your order details &mdash; attach your reference photo there if you uploaded one.</p>
+    </div>
   </section>
 
   <section>
@@ -470,6 +555,42 @@
     await persistSuggestions();
   }
 
+  // --- Order & checkout ---
+  var ORDER_EMAIL = 'REPLACE_WITH_OWNER_EMAIL@example.com';
+  var selectedOrder = { name: 'Nothing picked yet', price: null };
+
+  function setSelectedOrder(name, price) {
+    selectedOrder = { name: name, price: price };
+    document.getElementById('selected-name').textContent = name;
+    document.getElementById('selected-price').textContent = price ? ('$' + price) : 'Ask for price';
+    document.getElementById('checkout-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  document.getElementById('order-photo').addEventListener('change', function (e) {
+    var f = e.target.files && e.target.files[0];
+    document.getElementById('order-photo-name').textContent = f ? ('Selected: ' + f.name) : '';
+  });
+
+  function submitOrder() {
+    var name = document.getElementById('order-name').value.trim();
+    var contact = document.getElementById('order-contact').value.trim();
+    var notes = document.getElementById('order-notes').value.trim();
+    var hasPhoto = document.getElementById('order-photo').files.length > 0;
+
+    var subject = 'New order: ' + selectedOrder.name;
+    var bodyLines = [
+      'Design: ' + selectedOrder.name,
+      'Price: ' + (selectedOrder.price ? ('$' + selectedOrder.price) : 'ask'),
+      'Name: ' + (name || '(not given)'),
+      'Contact: ' + (contact || '(not given)'),
+      'Notes: ' + (notes || '(none)'),
+      hasPhoto ? '\n(Remember to attach the reference photo you selected on the site before sending this email.)' : ''
+    ];
+    var body = bodyLines.join('\n');
+    var mailto = 'mailto:' + ORDER_EMAIL + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    window.location.href = mailto;
+  }
+
   document.addEventListener('click', function (e) {
     var el = e.target.closest('[data-role]');
     if (!el) return;
@@ -480,6 +601,9 @@
     if (role === 'shape') { picker.shape = value; renderControls(); }
     if (role === 'add-suggestion') addSuggestion();
     if (role === 'remove-suggestion') removeSuggestion(el.getAttribute('data-id'));
+    if (role === 'order-design') setSelectedOrder(el.getAttribute('data-name'), parseInt(el.getAttribute('data-price'), 10));
+    if (role === 'order-picker') setSelectedOrder('Custom combo: ' + picker.color + ' / ' + picker.pattern + ' / ' + picker.shape, null);
+    if (role === 'submit-order') submitOrder();
   });
 
   renderControls();
