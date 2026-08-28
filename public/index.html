@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nails To Fit Art</title>
+<meta name="description" content="Hand-painted press-on nails, made to order — Nails To Fit Art.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #FBF7F1; --paper-raised: #FFFFFF; --ink: #14231F; --ink-soft: #566863; --line: #E1E4DE;
+    --pine: #12312B; --pine-soft: #E4EDEA;
+    --mint: #4FB3A0; --mint-soft: #DCEFE9;
+    --rose: #C85D77; --rose-soft: #F7DFE4;
+    --blush: #E8899E; --blush-soft: #FBE3E9;
+    --honey: #B9852A; --honey-soft: #F4E4C4;
+    --good: #3F7A5C;
+    --shadow: 0 1px 2px rgba(20,35,31,0.06), 0 10px 28px -14px rgba(20,35,31,0.18);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #101A17; --paper-raised: #17241F; --ink: #ECF3F0; --ink-soft: #A9BCB5; --line: #263631;
+      --pine: #7FD9C4; --pine-soft: #1C3830; --mint: #7FD9C4; --mint-soft: #1F3F38;
+      --rose: #E993A8; --rose-soft: #3A2530; --blush: #E8899E; --blush-soft: #3E2A31;
+      --honey: #E2B65E; --honey-soft: #3A2F1C;
+      --good: #7FBF9F; --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #101A17; --paper-raised: #17241F; --ink: #ECF3F0; --ink-soft: #A9BCB5; --line: #263631;
+    --pine: #7FD9C4; --pine-soft: #1C3830; --mint: #7FD9C4; --mint-soft: #1F3F38;
+    --rose: #E993A8; --rose-soft: #3A2530; --blush: #E8899E; --blush-soft: #3E2A31;
+    --honey: #E2B65E; --honey-soft: #3A2F1C;
+    --good: #7FBF9F; --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: "Work Sans", ui-sans-serif, system-ui, sans-serif; font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; text-wrap: balance; color: var(--ink); }
+  button { font-family: inherit; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+
+  /* hero */
+  .hero { text-align: center; padding-bottom: 2.2rem; margin-bottom: 3rem; border-bottom: 2px solid var(--ink); }
+  .badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--honey-soft); color: var(--honey); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.1rem; }
+  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 700; margin: 0 0 0.6rem; }
+  .hero .placeholder-note { font-size: 0.78rem; color: var(--ink-soft); margin: 0 0 0.9rem; }
+  .hero .tagline { font-size: 1.15rem; color: var(--ink-soft); margin: 0 auto; max-width: 40ch; }
+
+  section { margin-bottom: 3.6rem; }
+  .section-head { text-align: center; margin-bottom: 1.6rem; }
+  .section-head .kicker { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rose); font-weight: 700; margin: 0 0 0.4rem; }
+  .section-head h2 { font-size: 1.7rem; font-weight: 500; margin: 0 0 0.5rem; }
+  .section-head p { color: var(--ink-soft); max-width: 56ch; margin: 0 auto; }
+
+  /* nail rendering (shared by gallery + picker) */
+  .nail { width: 34px; border-radius: 50% 50% 42% 42% / 62% 62% 30% 30%; overflow: hidden; box-shadow: inset 0 -2px 4px rgba(0,0,0,0.08); display: flex; flex-direction: column; }
+  .nail.shape-coffin { border-radius: 24% 24% 10% 10% / 20% 20% 8% 8%; }
+  .nail.shape-round { border-radius: 48% 48% 50% 50% / 60% 60% 45% 45%; }
+  .nail .tip { height: 62%; }
+  .nail .base { height: 38%; background: #EDD9CE; }
+  .pattern-stripe { background-image: repeating-linear-gradient(48deg, var(--acc) 0 5px, var(--acc2, #fff) 5px 9px); }
+  .pattern-dot { background-color: var(--acc); background-image: radial-gradient(circle, #ffffffcc 16%, transparent 17%); background-size: 9px 9px; background-position: 2px 2px; }
+  .pattern-foil { background: linear-gradient(160deg, var(--acc) 55%, #fff 100%); background-image: radial-gradient(circle at 30% 30%, #ffe9a8cc 0 3px, transparent 4px), radial-gradient(circle at 65% 55%, #ffe9a8aa 0 2px, transparent 3px), linear-gradient(160deg, var(--acc) 55%, #fff 100%); }
+  .pattern-block { background: var(--acc); }
+
+  /* gallery */
+  .gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 780px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+  .design-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 1.2rem 1.1rem; box-shadow: var(--shadow); text-align: center; }
+  .design-card .hand { display: flex; justify-content: center; gap: 6px; align-items: flex-end; height: 60px; margin-bottom: 0.9rem; }
+  .design-card .hand .nail:nth-child(2) { transform: translateY(-4px); }
+  .design-card .hand .nail:nth-child(3) { transform: translateY(-6px); }
+  .design-card .tier { font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; font-weight: 700; color: var(--honey); }
+  .design-card h3 { font-size: 1.02rem; margin: 0.3rem 0 0.35rem; }
+  .design-card p { font-size: 0.82rem; color: var(--ink-soft); margin: 0 0 0.7rem; }
+  .design-card .price { font-family: "Fraunces", serif; font-weight: 600; font-size: 1.2rem; }
+
+  /* picker */
+  .picker { display: grid; grid-template-columns: 1.1fr 1fr; gap: 1.6rem; align-items: start; }
+  @media (max-width: 760px) { .picker { grid-template-columns: 1fr; } }
+  .picker-controls { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 1.4rem; box-shadow: var(--shadow); }
+  .control-row { margin-bottom: 1.2rem; }
+  .control-row:last-child { margin-bottom: 0; }
+  .control-row .label { font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; margin-bottom: 0.5rem; display: block; }
+  .swatches { display: flex; gap: 0.55rem; flex-wrap: wrap; }
+  .swatch { width: 34px; height: 34px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; }
+  .swatch.active { border-color: var(--ink); }
+  .chip-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+  .chip { border: 1px solid var(--line); background: var(--paper); color: var(--ink); border-radius: 999px; padding: 0.4rem 0.9rem; font-size: 0.84rem; cursor: pointer; }
+  .chip.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .picker-preview { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 1.6rem; box-shadow: var(--shadow); text-align: center; }
+  .picker-preview .hand { display: flex; justify-content: center; gap: 10px; align-items: flex-end; height: 100px; margin-bottom: 1.2rem; }
+  .picker-preview .hand .nail { width: 44px; }
+  .picker-preview .hand .nail:nth-child(2) { transform: translateY(-8px); }
+  .picker-preview .hand .nail:nth-child(3) { transform: translateY(-12px); }
+  .picker-preview .cta { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
+  .picker-preview .cta b { color: var(--ink); }
+
+  /* club */
+  .club-card { background: linear-gradient(135deg, var(--honey-soft), var(--blush-soft)); border-radius: 16px; padding: 2rem; box-shadow: var(--shadow); display: flex; flex-wrap: wrap; gap: 1.6rem; align-items: center; justify-content: space-between; }
+  .club-card .copy { flex: 1; min-width: 240px; }
+  .club-card h3 { font-size: 1.3rem; margin: 0 0 0.4rem; }
+  .club-card p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; max-width: 46ch; }
+  .club-price { text-align: center; background: var(--paper-raised); border-radius: 12px; padding: 1rem 1.4rem; box-shadow: var(--shadow); }
+  .club-price .amt { font-family: "Fraunces", serif; font-weight: 700; font-size: 1.9rem; display: block; }
+  .club-price .per { font-size: 0.78rem; color: var(--ink-soft); }
+
+  /* channels */
+  .channels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  @media (max-width: 780px) { .channels { grid-template-columns: repeat(2, 1fr); } }
+  .channel-card { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem; box-shadow: var(--shadow); }
+  .channel-card .soon { display: inline-block; font-size: 0.62rem; letter-spacing: 0.06em; text-transform: uppercase; font-weight: 700; background: var(--mint-soft); color: var(--good); padding: 0.15rem 0.55rem; border-radius: 999px; margin-bottom: 0.5rem; }
+  .channel-card h3 { font-size: 0.98rem; margin: 0 0 0.3rem; }
+  .channel-card p { font-size: 0.8rem; color: var(--ink-soft); margin: 0; }
+
+  /* order cta */
+  .order-box { background: var(--paper-raised); border: 1px dashed var(--rose); border-radius: 14px; padding: 1.6rem; text-align: center; }
+  .order-box h3 { margin: 0 0 0.5rem; font-size: 1.15rem; }
+  .order-box p { margin: 0.4rem auto 0; color: var(--ink-soft); max-width: 50ch; }
+  .order-box p:first-of-type { margin-top: 0; }
+
+  /* process */
+  .process { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.9rem; counter-reset: step; }
+  @media (max-width: 780px) { .process { grid-template-columns: repeat(2, 1fr); } }
+  .step { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; box-shadow: var(--shadow); }
+  .step .num { font-family: "Fraunces", serif; font-weight: 700; color: var(--honey); font-size: 1.1rem; display: block; margin-bottom: 0.35rem; }
+  .step p { margin: 0; font-size: 0.82rem; color: var(--ink-soft); }
+  .video-slot { margin-top: 1rem; border: 1px dashed var(--line); border-radius: 12px; padding: 1.2rem; text-align: center; font-size: 0.85rem; color: var(--ink-soft); }
+
+  /* community board */
+  .board { background: var(--paper-raised); border: 1px solid var(--line); border-radius: 14px; padding: 1.4rem; box-shadow: var(--shadow); }
+  .board-add { display: flex; gap: 0.6rem; margin-bottom: 1.1rem; flex-wrap: wrap; }
+  .board-add input[type="text"] { flex: 1; min-width: 160px; padding: 0.55rem 0.8rem; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); color: var(--ink); font-family: inherit; font-size: 0.9rem; }
+  .board-add input[name="name"] { flex: 0 0 140px; min-width: 110px; }
+  .board-add button { border: none; background: var(--ink); color: var(--paper); border-radius: 8px; padding: 0.55rem 1.1rem; font-size: 0.9rem; cursor: pointer; }
+  .board-list { display: grid; gap: 0.7rem; }
+  .suggestion { border-top: 1px solid var(--line); padding-top: 0.7rem; display: flex; justify-content: space-between; gap: 0.8rem; }
+  .suggestion:first-child { border-top: none; padding-top: 0; }
+  .suggestion .s-body b { font-size: 0.86rem; }
+  .suggestion .s-body p { margin: 0.2rem 0 0; font-size: 0.88rem; color: var(--ink-soft); }
+  .suggestion .s-remove { border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 1rem; line-height: 1; }
+  .board .empty { color: var(--ink-soft); font-size: 0.88rem; margin: 0; }
+  .board-note { font-size: 0.78rem; color: var(--ink-soft); margin: 0.8rem 0 0; display: none; }
+
+  footer.foot { border-top: 1px solid var(--line); padding-top: 1.2rem; font-size: 0.78rem; color: var(--ink-soft); text-align: center; }
+  .logo-mark { display: block; margin: 0 auto 1.2rem; max-width: 240px; height: auto; border-radius: 10px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <h1 class="sr-only">Nails To Fit Art</h1>
+    <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
+    <span class="badge">&#128142; taking orders from friends &mdash; official launch coming soon</span>
+    <p class="tagline">Hand-painted press-on nails, made to order &mdash; pick a design below or build your own.</p>
+  </div>
+
+  <section>
+    <div class="section-head">
+      <p class="kicker">The Collection</p>
+      <h2>Design library</h2>
+      <p>Every set is hand-painted to order &mdash; pricing follows the shop's tiering, from simple patterns to detailed metallic work.</p>
+    </div>
+    <div class="gallery">
+      <div class="design-card">
+        <div class="hand">
+          <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-stripe" style="--acc:#B9852A;--acc2:#F4E4C4"></div><div class="base"></div></div>
+        </div>
+        <p class="tier">Custom</p>
+        <h3>Bee Stripe French</h3>
+        <p>Honey stripe tip over a soft nude base.</p>
+        <p class="price">$30</p>
+      </div>
+      <div class="design-card">
+        <div class="hand">
+          <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-dot" style="--acc:#4F8F86"></div><div class="base"></div></div>
+        </div>
+        <p class="tier">Custom</p>
+        <h3>Mint Polka French</h3>
+        <p>Mint tip with hand-dotted white polka dots.</p>
+        <p class="price">$30</p>
+      </div>
+      <div class="design-card">
+        <div class="hand">
+          <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#C85D77"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#E2B65E"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-block" style="--acc:#4F8F86"></div><div class="base"></div></div>
+        </div>
+        <p class="tier">Custom</p>
+        <h3>Pastel Colour-Block</h3>
+        <p>Rotating pastel tip colours across the set.</p>
+        <p class="price">$32</p>
+      </div>
+      <div class="design-card">
+        <div class="hand">
+          <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+          <div class="nail shape-almond"><div class="tip pattern-foil" style="--acc:#B9852A"></div><div class="base"></div></div>
+        </div>
+        <p class="tier">Luxury</p>
+        <h3>Gold Foil Bloom</h3>
+        <p>Gold foil French with floral detail &amp; bead accents.</p>
+        <p class="price">$58</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <p class="kicker">Build Your Own</p>
+      <h2>Design your set</h2>
+      <p>Mix a colour, a pattern, and a shape to preview your own combo &mdash; then message me to order it.</p>
+    </div>
+    <div class="picker">
+      <div class="picker-controls">
+        <div class="control-row">
+          <span class="label">Colour</span>
+          <div class="swatches" id="swatch-row"></div>
+        </div>
+        <div class="control-row">
+          <span class="label">Pattern</span>
+          <div class="chip-row" id="pattern-row"></div>
+        </div>
+        <div class="control-row">
+          <span class="label">Tip shape</span>
+          <div class="chip-row" id="shape-row"></div>
+        </div>
+      </div>
+      <div class="picker-preview">
+        <div class="hand" id="preview-hand"></div>
+        <p class="cta">Like this combo? <b>Message me</b> with your colour, pattern, and shape pick and I'll get started.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <p class="kicker">Behind the scenes</p>
+      <h2>How it's made</h2>
+      <p>From bare tips to ready-to-wear &mdash; every set goes through the same five steps.</p>
+    </div>
+    <div class="process">
+      <div class="step"><span class="num">1</span><p>Size &amp; prep the tips against your actual nails</p></div>
+      <div class="step"><span class="num">2</span><p>Base coat, then the tip colour goes on first</p></div>
+      <div class="step"><span class="num">3</span><p>Hand-paint the pattern &mdash; stripes, dots, or foil detail</p></div>
+      <div class="step"><span class="num">4</span><p>Seal with top coat so it holds up to daily wear</p></div>
+      <div class="step"><span class="num">5</span><p>Glue on, press, hold &mdash; ready to go out the door</p></div>
+    </div>
+    <div class="video-slot">&#127909; Process video coming soon &mdash; this spot is ready for the first behind-the-scenes clip once it's filmed.</div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <p class="kicker">Subscribe</p>
+      <h2>The Nail Club</h2>
+    </div>
+    <div class="club-card">
+      <div class="copy">
+        <h3>One new set, every month</h3>
+        <p>Join the club for a rotating simple or colour-block design each month at a member price &mdash; message me directly to sign up, spots tracked by hand for now.</p>
+      </div>
+      <div class="club-price">
+        <span class="amt">$25</span>
+        <span class="per">per month</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <p class="kicker">Community</p>
+      <h2>From friends</h2>
+      <p>Questions, suggestions, and design ideas friends have sent in.</p>
+    </div>
+    <div class="board">
+      <div class="board-add" id="board-add">
+        <input type="text" id="sugg-name" name="name" placeholder="Your name" maxlength="40">
+        <input type="text" id="sugg-message" name="message" placeholder="A question, suggestion, or design idea..." maxlength="240">
+        <button type="button" data-role="add-suggestion">Post</button>
+      </div>
+      <p class="board-note" id="board-note">Posting here needs owner access on this page &mdash; message the ideas above directly instead and they'll be added.</p>
+      <div class="board-list" id="suggestions-list"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <p class="kicker">Elsewhere</p>
+      <h2>Where this is headed</h2>
+      <p>These aren't live yet &mdash; word of mouth and this page are the whole shop for now.</p>
+    </div>
+    <div class="channels">
+      <div class="channel-card"><span class="soon">Coming soon</span><h3>Instagram</h3><p>Daily posts, before/afters, process clips.</p></div>
+      <div class="channel-card"><span class="soon">Coming soon</span><h3>Pinterest</h3><p>A running board of design inspiration.</p></div>
+      <div class="channel-card"><span class="soon">Coming soon</span><h3>Group chat</h3><p>Invite-only, parent co-admin &mdash; sneak peeks &amp; first dibs.</p></div>
+      <div class="channel-card"><span class="soon">Coming soon</span><h3>Etsy shop</h3><p>Parent-held storefront for payments &amp; shipping.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="order-box">
+      <h3>Want to order right now?</h3>
+      <p>Just message me directly &mdash; tell me the design (or your own combo from above), or send a photo of what you're imagining and I'll reply with a plan.</p>
+      <p>Payment by Zelle, sent to a parent's account &mdash; ask for the details when you order.</p>
+    </div>
+  </section>
+
+  <footer class="foot">
+    A work in progress &mdash; parent-supervised. More gets added here as the shop grows.
+  </footer>
+
+</div>
+
+<script>
+  var COLORS = [
+    { key: 'honey', hex: '#B9852A', label: 'Honey' },
+    { key: 'mint', hex: '#4F8F86', label: 'Mint' },
+    { key: 'rose', hex: '#C85D77', label: 'Rose' },
+    { key: 'blush', hex: '#E8899E', label: 'Blush' }
+  ];
+  var PATTERNS = [
+    { key: 'stripe', label: 'Stripe' },
+    { key: 'dot', label: 'Polka Dot' },
+    { key: 'foil', label: 'Gold Foil' },
+    { key: 'block', label: 'Solid' }
+  ];
+  var SHAPES = [
+    { key: 'almond', label: 'Almond' },
+    { key: 'coffin', label: 'Coffin' },
+    { key: 'round', label: 'Round' }
+  ];
+
+  var picker = { color: 'honey', pattern: 'stripe', shape: 'almond' };
+
+  function colorHex(key) {
+    for (var i = 0; i < COLORS.length; i++) if (COLORS[i].key === key) return COLORS[i].hex;
+    return '#B9852A';
+  }
+
+  function renderSwatches() {
+    var row = document.getElementById('swatch-row');
+    var html = '';
+    for (var i = 0; i < COLORS.length; i++) {
+      var c = COLORS[i];
+      var active = c.key === picker.color ? ' active' : '';
+      html += '<button class="swatch' + active + '" data-role="color" data-value="' + c.key + '" style="background:' + c.hex + '" aria-label="' + c.label + '" title="' + c.label + '"></button>';
+    }
+    row.innerHTML = html;
+  }
+
+  function renderChips(rowId, list, role, activeKey) {
+    var row = document.getElementById(rowId);
+    var html = '';
+    for (var i = 0; i < list.length; i++) {
+      var item = list[i];
+      var active = item.key === activeKey ? ' active' : '';
+      html += '<button class="chip' + active + '" data-role="' + role + '" data-value="' + item.key + '">' + item.label + '</button>';
+    }
+    row.innerHTML = html;
+  }
+
+  function renderPreview() {
+    var hex = colorHex(picker.color);
+    var hand = document.getElementById('preview-hand');
+    var shapeClass = 'shape-' + picker.shape;
+    var patternClass = 'pattern-' + picker.pattern;
+    var accVar = 'style="--acc:' + hex + (picker.pattern === 'stripe' ? ';--acc2:#F4E4C4' : '') + '"';
+    var one = '<div class="nail ' + shapeClass + '"><div class="tip ' + patternClass + '" ' + accVar + '></div><div class="base"></div></div>';
+    hand.innerHTML = one + one + one;
+  }
+
+  function renderControls() {
+    renderSwatches();
+    renderChips('pattern-row', PATTERNS, 'pattern', picker.pattern);
+    renderChips('shape-row', SHAPES, 'shape', picker.shape);
+    renderPreview();
+  }
+
+  // --- From Friends board: persisted via the artifact capability ---
+  var suggestions = [];
+  var writeDisabled = false;
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function renderSuggestions() {
+    var root = document.getElementById('suggestions-list');
+    if (!suggestions.length) {
+      root.innerHTML = '<p class="empty">No questions or suggestions yet &mdash; be the first!</p>';
+      return;
+    }
+    var html = '';
+    for (var i = suggestions.length - 1; i >= 0; i--) {
+      var s = suggestions[i];
+      html += '<div class="suggestion" data-id="' + s.id + '">' +
+        '<div class="s-body"><b>' + escapeHtml(s.name || 'Anonymous') + '</b>' +
+        '<p>' + escapeHtml(s.message) + '</p></div>' +
+        '<button class="s-remove" data-role="remove-suggestion" data-id="' + s.id + '" title="Remove" aria-label="Remove">&times;</button>' +
+        '</div>';
+    }
+    root.innerHTML = html;
+  }
+
+  async function loadSuggestions() {
+    try {
+      var res = await fetch('data/suggestions.json', { cache: 'no-store' });
+      if (res.ok) suggestions = await res.json();
+    } catch (e) { /* no data file yet — starts empty */ }
+    renderSuggestions();
+  }
+
+  function showBoardReadOnly() {
+    writeDisabled = true;
+    var addBox = document.getElementById('board-add');
+    var note = document.getElementById('board-note');
+    if (addBox) addBox.style.display = 'none';
+    if (note) note.style.display = 'block';
+  }
+
+  async function persistSuggestions() {
+    if (writeDisabled) { showBoardReadOnly(); return; }
+    if (typeof window.claude === 'undefined') { showBoardReadOnly(); return; }
+    var api = await window.claude.use('artifact');
+    if (!api) { showBoardReadOnly(); return; }
+    try {
+      await api.publish({ 'data/suggestions.json': JSON.stringify(suggestions) });
+    } catch (err) {
+      if (err && (err.code === 'not_writer' || err.code === 'not_granted')) {
+        showBoardReadOnly();
+      } else if (err && err.code === 'conflict') {
+        await loadSuggestions();
+      }
+    }
+  }
+
+  async function addSuggestion() {
+    var nameEl = document.getElementById('sugg-name');
+    var msgEl = document.getElementById('sugg-message');
+    var message = msgEl.value.trim();
+    if (!message) return;
+    suggestions.push({
+      id: 'sg_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7),
+      name: nameEl.value.trim().slice(0, 40),
+      message: message.slice(0, 240),
+      ts: Date.now()
+    });
+    nameEl.value = '';
+    msgEl.value = '';
+    renderSuggestions();
+    await persistSuggestions();
+  }
+
+  async function removeSuggestion(id) {
+    suggestions = suggestions.filter(function (s) { return s.id !== id; });
+    renderSuggestions();
+    await persistSuggestions();
+  }
+
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-role]');
+    if (!el) return;
+    var role = el.getAttribute('data-role');
+    var value = el.getAttribute('data-value');
+    if (role === 'color') { picker.color = value; renderControls(); }
+    if (role === 'pattern') { picker.pattern = value; renderControls(); }
+    if (role === 'shape') { picker.shape = value; renderControls(); }
+    if (role === 'add-suggestion') addSuggestion();
+    if (role === 'remove-suggestion') removeSuggestion(el.getAttribute('data-id'));
+  });
+
+  renderControls();
+  loadSuggestions();
+</script>
+</body>
+</html>
