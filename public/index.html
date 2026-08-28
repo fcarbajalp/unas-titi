@@ -54,24 +54,28 @@
     display: flex; justify-content: center; gap: 0.4rem; flex-wrap: wrap;
     padding: 0.7rem 1rem;
   }
-  .topnav a { color: #CFE9E1; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; }
-  .topnav a:hover { background: rgba(234,245,241,0.1); }
+  .topnav button { font: inherit; color: #CFE9E1; background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; }
+  .topnav button:hover { background: rgba(234,245,241,0.1); }
+  .topnav button.active { background: rgba(234,245,241,0.18); }
 
-  /* hero */
+  /* hero — full screen on load, collapses once a panel opens */
   .hero {
     position: relative;
     width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw);
     margin-top: 0;
-    padding: 3rem 1.5rem 3.5rem;
-    text-align: center;
-    background: #12312B;
-    color: #EAF5F1;
+    min-height: calc(100vh - 3.1rem);
+    background-image: url('assets/logo-bg.jpg');
+    background-size: cover;
+    background-position: center;
+    background-color: #12312B;
+    transition: min-height 0.45s ease;
   }
-  .hero .logo-mark { display: block; margin: 0 auto 1.2rem; max-width: 260px; width: 60%; height: auto; }
-  .badge { display: inline-flex; align-items: center; gap: 0.4rem; background: rgba(234,245,241,0.14); color: #EAF5F1; border: 1px solid rgba(234,245,241,0.35); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.35rem 0.9rem; border-radius: 999px; margin-bottom: 1.3rem; backdrop-filter: blur(2px); }
-  .hero h1 { font-size: clamp(2.2rem, 6vw, 3.4rem); font-weight: 700; margin: 0 0 0.6rem; color: #EAF5F1; }
-  .hero .placeholder-note { font-size: 0.78rem; color: #EAF5F1; opacity: 0.75; margin: 0 0 0.9rem; }
-  .hero .tagline { font-size: 1.15rem; color: #EAF5F1; opacity: 0.92; margin: 0 auto; max-width: 40ch; }
+  body.panel-open .hero { min-height: 150px; }
+  @media (prefers-reduced-motion: reduce) { .hero { transition: none; } }
+
+  .panel { display: none; padding-top: 2.8rem; }
+  .panel.active { display: block; }
+  .panel > section:first-child { margin-top: 0; }
 
   section { margin-bottom: 3.6rem; }
   .section-head { text-align: center; margin-bottom: 1.6rem; }
@@ -194,7 +198,6 @@
   .board-note { font-size: 0.78rem; color: var(--ink-soft); margin: 0.8rem 0 0; display: none; }
 
   footer.foot { border-top: 1px solid var(--line); padding-top: 1.2rem; font-size: 0.78rem; color: var(--ink-soft); text-align: center; }
-  .logo-mark { display: block; margin: 0 auto 1.2rem; max-width: 240px; height: auto; border-radius: 10px; }
   .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 </style>
 </head>
@@ -203,29 +206,30 @@
 <div class="wrap">
 
   <nav class="topnav">
-    <a href="#about">About Us</a>
-    <a href="#our-art">Our Art</a>
-    <a href="#our-process">Our Process</a>
-    <a href="#order">Make an Order</a>
-    <a href="#coming-soon">Coming Soon</a>
+    <button type="button" data-panel="about">About Us</button>
+    <button type="button" data-panel="our-art">Our Art</button>
+    <button type="button" data-panel="our-process">Our Process</button>
+    <button type="button" data-panel="order">Make an Order</button>
+    <button type="button" data-panel="coming-soon">Coming Soon</button>
   </nav>
 
-  <div class="hero">
+  <div class="hero" role="img" aria-label="Nails To Fit Art">
     <h1 class="sr-only">Nails To Fit Art</h1>
-    <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
-    <span class="badge">&#128142; taking orders from friends &mdash; official launch coming soon</span>
-    <p class="tagline">Hand-painted press-on nails, made to order &mdash; pick a design below or build your own.</p>
   </div>
 
-  <section id="about">
+  <div class="panel" id="panel-about">
+  <section>
     <div class="section-head">
+      <span class="badge">&#128142; taking orders from friends &mdash; official launch coming soon</span>
       <p class="kicker">About Us</p>
       <h2>Handmade, one set at a time</h2>
       <p>Nails To Fit Art started with a paintbrush, a stack of blank tips, and friends asking where they could get a set like mine. Every design here is hand-painted to order &mdash; no printers, no factories, just practice and patience. It's a small, family-run shop, and each order is made specifically for you.</p>
     </div>
   </section>
+  </div>
 
-  <section id="our-art">
+  <div class="panel" id="panel-our-art">
+  <section>
     <div class="section-head">
       <p class="kicker">The Collection</p>
       <h2>Design library</h2>
@@ -311,8 +315,10 @@
       </div>
     </div>
   </section>
+  </div>
 
-  <section id="our-process">
+  <div class="panel" id="panel-our-process">
+  <section>
     <div class="section-head">
       <p class="kicker">Behind the scenes</p>
       <h2>How it's made</h2>
@@ -327,8 +333,10 @@
     </div>
     <div class="video-slot">&#127909; Process video coming soon &mdash; this spot is ready for the first behind-the-scenes clip once it's filmed.</div>
   </section>
+  </div>
 
-  <section id="order">
+  <div class="panel" id="panel-order">
+  <section>
     <div class="section-head">
       <p class="kicker">Order</p>
       <h2>Place your order</h2>
@@ -391,7 +399,9 @@
       </div>
     </div>
   </section>
+  </div>
 
+  <div class="panel" id="panel-coming-soon">
   <section>
     <div class="section-head">
       <p class="kicker">Community</p>
@@ -409,7 +419,7 @@
     </div>
   </section>
 
-  <section id="coming-soon">
+  <section>
     <div class="section-head">
       <p class="kicker">Elsewhere</p>
       <h2>Where this is headed</h2>
@@ -422,14 +432,7 @@
       <div class="channel-card"><span class="soon">Coming soon</span><h3>Etsy shop</h3><p>Parent-held storefront for payments &amp; shipping.</p></div>
     </div>
   </section>
-
-  <section>
-    <div class="order-box">
-      <h3>Want to order right now?</h3>
-      <p>Just message me directly &mdash; tell me the design (or your own combo from above), or send a photo of what you're imagining and I'll reply with a plan.</p>
-      <p>Payment by Zelle, sent to a parent's account &mdash; ask for the details when you order.</p>
-    </div>
-  </section>
+  </div>
 
   <footer class="foot">
     A work in progress &mdash; parent-supervised. More gets added here as the shop grows.
@@ -593,7 +596,23 @@
     selectedOrder = { name: name, price: price };
     document.getElementById('selected-name').textContent = name;
     document.getElementById('selected-price').textContent = price ? ('$' + price) : 'Ask for price';
-    document.getElementById('order').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    showPanel('order');
+  }
+
+  var PANEL_NAMES = ['about', 'our-art', 'our-process', 'order', 'coming-soon'];
+
+  function showPanel(name) {
+    if (PANEL_NAMES.indexOf(name) === -1) return;
+    PANEL_NAMES.forEach(function (n) {
+      var panel = document.getElementById('panel-' + n);
+      if (panel) panel.classList.toggle('active', n === name);
+    });
+    document.querySelectorAll('.topnav button').forEach(function (btn) {
+      btn.classList.toggle('active', btn.getAttribute('data-panel') === name);
+    });
+    document.body.classList.add('panel-open');
+    if (history.replaceState) history.replaceState(null, '', '#' + name);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   document.getElementById('order-photo').addEventListener('change', function (e) {
@@ -635,6 +654,13 @@
     if (role === 'order-picker') setSelectedOrder('Custom combo: ' + picker.color + ' / ' + picker.pattern + ' / ' + picker.shape, null);
     if (role === 'submit-order') submitOrder();
   });
+
+  document.querySelectorAll('.topnav button').forEach(function (btn) {
+    btn.addEventListener('click', function () { showPanel(btn.getAttribute('data-panel')); });
+  });
+
+  var initialPanel = window.location.hash.replace('#', '');
+  if (PANEL_NAMES.indexOf(initialPanel) !== -1) showPanel(initialPanel);
 
   renderControls();
   loadSuggestions();
