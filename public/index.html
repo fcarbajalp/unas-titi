@@ -7,19 +7,19 @@
 <meta name="description" content="Hand-painted press-on nails, made to order — Nails To Fit Art.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Alex+Brush&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    /* one deliberate dark-pink identity, same on every page */
-    --paper: #3B1626; --paper-raised: #4A2033; --ink: #FCEAEF; --ink-soft: #D19FB2; --line: #5C2C3E;
-    --pine: #F2789F; --pine-soft: #5C2A3D;
-    --mint: #F2789F; --mint-soft: #5C2A3D;
-    --rose: #F2A6C4; --rose-soft: #4A2033;
-    --blush: #E8899E; --blush-soft: #3E2A31;
-    --honey: #E2B65E; --honey-soft: #3A2F1C;
-    --good: #F2A6C4;
-    --shadow: 0 1px 2px rgba(0,0,0,0.35), 0 10px 28px -14px rgba(0,0,0,0.55);
+    /* one deliberate pink identity, same on every page — dark text on light pink */
+    --paper: #F2A6C4; --paper-raised: #FFFFFF; --ink: #1A1220; --ink-soft: #6B4C5A; --line: #E8B9CE;
+    --pine: #C2185B; --pine-soft: #FBE0EC;
+    --mint: #C2185B; --mint-soft: #FBE0EC;
+    --rose: #C2185B; --rose-soft: #FBE0EC;
+    --blush: #E8899E; --blush-soft: #FBE0EC;
+    --honey: #9C6B1F; --honey-soft: #F4E4C4;
+    --good: #C2185B;
+    --shadow: 0 1px 2px rgba(26,18,32,0.08), 0 10px 28px -14px rgba(26,18,32,0.22);
   }
 
   * { box-sizing: border-box; }
@@ -40,8 +40,8 @@
   }
   body.panel-open .topnav { background: var(--paper); border-bottom-color: var(--line); }
   .topnav button { font: inherit; color: var(--ink); background: none; border: none; cursor: pointer; text-decoration: none; font-size: 0.84rem; font-weight: 600; padding: 0.4rem 0.8rem; border-radius: 999px; white-space: nowrap; letter-spacing: 0.02em; }
-  .topnav button:hover { background: rgba(234,245,241,0.12); }
-  .topnav button.active { background: var(--pine); color: #3B1626; }
+  .topnav button:hover { background: rgba(26,18,32,0.06); }
+  .topnav button.active { background: var(--pine); color: #FFFFFF; }
 
   /* hero — full screen on load, hidden once a panel opens */
   .hero {
@@ -56,14 +56,18 @@
     text-align: center;
   }
   body.panel-open .hero { display: none; }
-  .hero .logo-mark { max-width: 700px; width: 92%; height: auto; }
+  .logo-text { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; }
+  .logo-script { font-family: "Alex Brush", cursive; font-size: clamp(4.5rem, 14vw, 8rem); line-height: 1; color: #000; }
+  .logo-underline { width: 140px; height: 2px; background: #000; }
+  .logo-full { font-family: "Fraunces", serif; font-size: clamp(1rem, 2.6vw, 1.4rem); letter-spacing: 0.35em; color: #000; padding-left: 0.35em; }
   .hero-cta {
     display: inline-block; margin-top: 0.4rem;
-    background: var(--pine); color: #3B1626; font-weight: 700; font-size: 0.95rem;
+    background: var(--pine); color: #FFFFFF; font-weight: 700; font-size: 0.95rem;
     text-decoration: none; border: none; cursor: pointer;
     padding: 0.85rem 2.2rem; border-radius: 999px; letter-spacing: 0.02em;
   }
   .hero-cta:hover { opacity: 0.92; }
+  .badge { display: inline-flex; align-items: center; gap: 0.4rem; background: var(--paper-raised); color: var(--ink); border: 1px solid var(--line); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; padding: 0.35rem 0.9rem; border-radius: 999px; }
 
   .slideshow { position: relative; width: min(80vw, 560px); aspect-ratio: 3 / 1; border-radius: 16px; overflow: hidden; background: var(--paper-raised); box-shadow: var(--shadow); }
   .slideshow .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease; }
@@ -73,7 +77,7 @@
   .slideshow-dots span { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
   .slideshow-dots span.active { background: var(--pine); }
 
-  .music-toggle { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234,245,241,0.1); border: 1px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
+  .music-toggle { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(26,18,32,0.05); border: 1px solid var(--line); color: var(--ink-soft); border-radius: 999px; padding: 0.5rem 1rem; font-size: 0.82rem; font-weight: 600; cursor: pointer; }
   .music-toggle:hover { color: var(--ink); }
 
   .panel { display: none; padding-top: 3.6rem; background: var(--paper); }
@@ -129,7 +133,7 @@
   .picker-preview .hand .nail:nth-child(3) { transform: translateY(-12px); }
   .picker-preview .cta { font-size: 0.9rem; color: var(--ink-soft); margin: 0; }
   .picker-preview .cta b { color: var(--ink); }
-  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #3B1626; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 700; cursor: pointer; }
+  .order-btn { margin-top: 0.6rem; border: none; background: var(--pine); color: #FFFFFF; border-radius: 999px; padding: 0.55rem 1.3rem; font-size: 0.86rem; font-weight: 700; cursor: pointer; }
   .order-btn:hover { opacity: 0.9; }
 
   /* checkout */
@@ -150,7 +154,7 @@
   .upload-field .file-name { font-size: 0.8rem; color: var(--ink-soft); margin-top: 0.4rem; }
   .zelle-block { background: var(--honey-soft); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: 1.3rem; font-size: 0.9rem; }
   .zelle-block .zelle-number { font-weight: 700; font-family: "Fraunces", serif; font-size: 1.1rem; }
-  .submit-btn { width: 100%; border: none; background: var(--pine); color: #3B1626; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
+  .submit-btn { width: 100%; border: none; background: var(--pine); color: #FFFFFF; border-radius: 10px; padding: 0.9rem; font-size: 1rem; font-weight: 700; cursor: pointer; }
   .submit-btn:hover { opacity: 0.92; }
   .checkout-note { font-size: 0.78rem; color: var(--ink-soft); margin-top: 0.9rem; text-align: center; }
 
@@ -218,8 +222,11 @@
   </nav>
 
   <div class="hero">
-    <h1 class="sr-only">Nails To Fit Art</h1>
-    <img class="logo-mark" src="assets/logo.jpeg" alt="Nails To Fit Art">
+    <h1 class="logo-text">
+      <span class="logo-script" aria-hidden="true">ntfa</span>
+      <span class="logo-underline" aria-hidden="true"></span>
+      <span class="logo-full">NAILS TO FIT ART</span>
+    </h1>
 
     <div class="slideshow" id="slideshow">
       <div class="slide active"><img src="assets/slideshow/photo1.jpg" alt="Speckled press-on nail set" loading="eager"></div>
